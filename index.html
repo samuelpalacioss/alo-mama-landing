@@ -93,8 +93,8 @@ section { padding-block: clamp(64px, 9vw, 112px); }
 .hero p { margin-top: 18px; max-width: 30em; font-size: clamp(17px, 1.7vw, 19px); line-height: 1.5; color: var(--olive-ink); }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; padding-bottom: clamp(32px, 4.5vw, 64px); }
 .hero-art { justify-self: center; width: min(100%, 440px); margin-bottom: -2px; }
-.hero-art img { width: 100%; height: auto; animation: float 6s ease-in-out infinite; filter: drop-shadow(0 18px 24px rgba(60, 68, 0, .25)); }
-@keyframes float { 0%, 100% { transform: translateY(0) rotate(-.5deg); } 50% { transform: translateY(-10px) rotate(.5deg); } }
+.hero-art img { display: block; width: 100%; height: auto; animation: float 5s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
 /* ------------------------------------------------ qué es */
 .split { display: grid; gap: 40px; }
