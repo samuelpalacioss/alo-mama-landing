@@ -179,9 +179,6 @@ section { padding-block: clamp(64px, 9vw, 112px); }
 .pose { text-align: center; }
 .pose img { width: 100%; height: auto; }
 .pose figcaption { margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); letter-spacing: .04em; }
-.familia { display: grid; gap: 24px; margin-top: 56px; align-items: center; }
-@media (min-width: 900px) { .familia { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; } }
-.familia img { width: 100%; height: auto; border-radius: 20px; border: 1px solid var(--line); background: #fff; }
 
 /* ------------------------------------------------ cómo está hecho */
 .flow { display: grid; gap: 10px; margin-top: 44px; }
@@ -430,7 +427,7 @@ dialog.lb button { all: unset; cursor: pointer; display: grid; place-items: cent
 <section class="band-soft" id="mama" aria-labelledby="t-mama">
   <div class="wrap">
     <p class="eyebrow">El personaje</p>
-    <h2 id="t-mama">Mamá tiene cara, voz y familia.</h2>
+    <h2 id="t-mama">Mamá tiene cara y voz.</h2>
     <div class="mama-grid">
       <figure class="vid rise">
         <video src="media/video/mariana-vs-mama.mp4" poster="media/video/mariana-vs-mama.webp" controls playsinline preload="none" aria-label="Mariana hablando a la cámara al lado de Mamá, la ilustración animada que repite sus gestos"></video>
@@ -447,14 +444,6 @@ dialog.lb button { all: unset; cursor: pointer; display: grid; place-items: cent
       <figure class="pose rise"><img src="media/brand/mama-escribiendo.webp" alt="Mamá mirando el teléfono con las dos manos" width="512" height="512" loading="lazy"><figcaption>escribiendo</figcaption></figure>
       <figure class="pose rise"><img src="media/brand/mama-lista.webp" alt="Mamá con los ojos cerrados y la mano en el pecho, aliviada" width="512" height="512" loading="lazy"><figcaption>lista</figcaption></figure>
       <figure class="pose rise"><img src="media/brand/mama-pendiente.webp" alt="Mamá mirando hacia arriba, pendiente" width="512" height="512" loading="lazy"><figcaption>pendiente</figcaption></figure>
-    </div>
-    <div class="familia">
-      <div class="rise">
-        <p class="eyebrow">La familia de Mamá</p>
-        <h2 style="font-size: clamp(26px, 3vw, 34px)">Siete personajes en el mismo estilo.</h2>
-        <p class="lede">Papá, la tía Carmen (la de la frase clave), la hermana, el hermano, el tío y los abuelos: los contactos que reciben el aviso, dibujados con las mismas reglas que Mamá.</p>
-      </div>
-      <img class="rise" src="media/brand/familia.webp" alt="Afiche con los siete personajes de la familia de Mamá en círculos chartreuse: abuelo, abuela, tío, papá, Mamá, tía Carmen, hermana y hermano" width="1800" height="1320" loading="lazy">
     </div>
   </div>
 </section>
