@@ -261,6 +261,64 @@ dialog.lb button { all: unset; cursor: pointer; display: grid; place-items: cent
 .foot-links a { font-family: var(--mono); font-size: 13px; color: var(--paper-on-dark); }
 .foot-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line-on-dark); font-family: var(--mono); font-size: 12px; color: var(--muted-on-dark); }
 
+/* ------------------------------------------------ votación */
+/* Mamá llama para pedir el voto. Al colgar quedan un botón flotante y "Votar" en el header. */
+.top .wordmark { flex: none; }
+.top-acts { display: flex; gap: 8px; flex: none; }
+.top .vote-head { border-color: var(--charcoal); }
+.vote-head[hidden] { display: none; }
+@media (max-width: 1099px) { .has-vote .nav { display: none; } }
+@keyframes vote-pop { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+.vote-head, .vote-fab { animation: vote-pop .4s var(--ease); }
+
+.vote-call { position: fixed; top: 80px; right: 16px; z-index: 40; width: min(360px, calc(100vw - 32px)); padding: 16px; border-radius: 26px; background: var(--charcoal); color: #fff; box-shadow: 0 24px 50px -16px rgba(0,0,0,.6); animation: vote-focus .6s var(--ease) both; }
+.vote-call[hidden] { display: none; }
+.vote-call [hidden] { display: none; }
+@keyframes vote-focus { from { opacity: 0; filter: blur(10px); transform: scale(.94); } }
+/* mientras suena: una ráfaga corta de vibración cada 2 s */
+.vote-call.is-ringing { cursor: pointer; animation: vote-focus .6s var(--ease) both, vote-buzz 2s .6s infinite; }
+@keyframes vote-buzz {
+  0%, 18%, 100% { transform: none; }
+  3% { transform: translateX(-1.5px) rotate(-.4deg); } 6% { transform: translateX(1.5px) rotate(.4deg); }
+  9% { transform: translateX(-1.5px) rotate(-.3deg); } 12% { transform: translateX(1.5px) rotate(.3deg); }
+  15% { transform: translateX(-1px); }
+}
+.vote-call.is-leaving { animation: vote-unfocus .35s var(--ease) forwards; }
+@keyframes vote-unfocus { to { opacity: 0; filter: blur(10px); transform: scale(.94); } }
+.vote-call-top { display: flex; align-items: center; gap: 12px; }
+.vote-av { position: relative; flex: none; display: block; border-radius: 50%; }
+.vote-av img { display: block; width: 52px; height: 52px; border-radius: 50%; background: var(--chartreuse); }
+/* ondas de radar alrededor de Mamá mientras suena */
+.is-ringing .vote-av::before, .is-ringing .vote-av::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--chartreuse); animation: vote-radar 2s cubic-bezier(.2, .6, .4, 1) infinite; }
+.is-ringing .vote-av::after { animation-delay: 1s; }
+@keyframes vote-radar { from { transform: scale(1); opacity: .9; } to { transform: scale(2.4); opacity: 0; } }
+.vote-call-top b { display: block; font-size: 18px; }
+.vote-call-top span { font-family: var(--mono); font-size: 12px; color: var(--muted-on-dark); }
+.vote-answer { all: unset; position: absolute; right: 16px; top: 18px; cursor: pointer; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #30A46C; color: #fff; animation: vote-ring 1.4s infinite; }
+.vote-answer svg { width: 22px; height: 22px; }
+@keyframes vote-ring { 0% { box-shadow: 0 0 0 0 rgba(48,164,108,.6); } 70%, 100% { box-shadow: 0 0 0 12px rgba(48,164,108,0); } }
+/* al contestar: el mensaje entra como un globo de chat y luego suben los botones */
+.vote-call-msg { margin-top: 14px; padding: 12px 14px; border-radius: 16px 16px 16px 4px; background: var(--charcoal-3); font-size: 15px; line-height: 1.45; transform-origin: 0 0; animation: vote-bubble .42s .14s cubic-bezier(.3, 1.4, .5, 1) backwards; }
+@keyframes vote-bubble { from { opacity: 0; transform: translateY(10px) scale(.88); } }
+.vote-call-end { display: flex; gap: 8px; margin-top: 12px; }
+.vote-call-end > * { animation: vote-rise .36s .32s cubic-bezier(.2, .8, .2, 1) backwards; }
+.vote-call-end > :nth-child(2) { animation-delay: .4s; }
+@keyframes vote-rise { from { opacity: 0; transform: translateY(8px); } }
+.vote-call-end .btn { flex: 1; min-height: 44px; }
+.vote-call-end .ghost { flex: none; color: var(--paper-on-dark); border-color: var(--line-on-dark); }
+
+.vote-fab { position: fixed; right: max(20px, env(safe-area-inset-right, 0px)); bottom: max(20px, env(safe-area-inset-bottom, 0px)); z-index: 30; }
+.vote-fab[hidden] { display: none; }
+.vote-fab > button { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 20px 0 7px; border-radius: 999px; border: 0; background: var(--charcoal); color: var(--chartreuse); font: inherit; font-weight: 500; font-size: 15px; cursor: pointer; box-shadow: 0 14px 30px -10px rgba(24,25,24,.6); }
+.vote-fab > button img { width: 38px; height: 38px; border-radius: 50%; }
+.vote-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--chartreuse); animation: vote-ping 1.6s infinite; }
+@keyframes vote-ping { 0% { box-shadow: 0 0 0 0 rgba(239,254,0,.7); } 70%, 100% { box-shadow: 0 0 0 10px rgba(239,254,0,0); } }
+.vote-card { position: absolute; right: 0; bottom: calc(100% + 12px); width: min(320px, calc(100vw - 40px)); padding: 20px; border-radius: 22px; background: var(--paper); border: 2px solid var(--charcoal); box-shadow: 0 20px 40px -20px rgba(24,25,24,.5); animation: vote-pop .3s var(--ease); }
+.vote-card[hidden] { display: none; }
+.vote-card h3 { font-size: 20px; line-height: 1.2; }
+.vote-card p { margin-top: 8px; font-size: 15px; color: var(--ink-2); }
+.vote-card .btn { width: 100%; margin-top: 16px; }
+
 /* entradas al hacer scroll: solo donde el navegador lo soporta; en reposo todo es visible */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
@@ -284,10 +342,13 @@ dialog.lb button { all: unset; cursor: pointer; display: grid; place-items: cent
       <a href="#galeria">Galería</a>
       <a href="#equipo">Equipo</a>
     </nav>
+    <div class="top-acts">
+    <a class="btn lime vote-head" data-vote hidden>Votar</a>
     <a class="btn" href="https://github.com/platanus-hack/platanus-hack-26-ve-team-27" target="_blank" rel="noopener">
       <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
       <span>Código</span>
     </a>
+    </div>
   </div>
 </header>
 
@@ -562,6 +623,24 @@ dialog.lb button { all: unset; cursor: pointer; display: grid; place-items: cent
   <form method="dialog"><button type="submit" aria-label="Cerrar">×</button></form>
 </dialog>
 
+<!-- votación: la llamada de Mamá y, después de colgar, el botón flotante -->
+<div class="vote-call" id="vote-call" role="region" aria-label="Llamada de Mamá" aria-live="polite" hidden>
+  <div class="vote-call-top"><span class="vote-av"><img src="media/brand/mama-llamando.webp" alt="" width="52" height="52"></span><div><b>Mamá</b><span data-status>llamando…</span></div></div>
+  <button class="vote-answer" type="button" aria-label="Contestar" data-ring><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6a1 1 0 0 0-1 .25l-2.2 2.2a15 15 0 0 1-6.6-6.6l2.2-2.2a1 1 0 0 0 .25-1A11.4 11.4 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/></svg></button>
+  <div data-talk hidden>
+    <p class="vote-call-msg">“Mi amor, ¿ya votaste por Aló Mamá? Son diez segunditos.”</p>
+    <div class="vote-call-end"><a class="btn lime" data-vote>Votar ahora</a><button class="btn ghost" type="button" data-hangup>Colgar</button></div>
+  </div>
+</div>
+<div class="vote-fab" id="vote-fab" hidden>
+  <div class="vote-card" id="vote-card" hidden>
+    <h3>Estamos en la votación de Platanus Hack.</h3>
+    <p>Si te gustó Aló Mamá, un voto nos ayuda mucho.</p>
+    <a class="btn" data-vote>Votar ahora</a>
+  </div>
+  <button type="button" aria-expanded="false" aria-controls="vote-card"><img src="media/brand/logo-redondo.webp" alt="" width="38" height="38"><span>Vota por nosotros</span><i class="vote-dot" aria-hidden="true"></i></button>
+</div>
+
 <script>
 (function () {
   var lb = document.getElementById('lb'), im = document.getElementById('lb-img');
@@ -582,6 +661,101 @@ dialog.lb button { all: unset; cursor: pointer; display: grid; place-items: cent
     }, { threshold: .2 });
     document.querySelectorAll('video[autoplay]').forEach(function (v) { io.observe(v); });
   }
+})();
+
+// Votación: a los 10 s Mamá llama pidiendo el voto. Con el mouse encima (o un toque)
+// se contesta sola y muestra el mensaje; al colgar quedan el botón flotante y "Votar"
+// en el header. En la misma sesión la llamada no se repite.
+(function () {
+  var VOTE_URL = 'https://hack.platan.us/26-ve/vote/mam';
+  var KEY = 'alo-mama:vote-call';
+  var call = document.getElementById('vote-call'), fab = document.getElementById('vote-fab');
+  var head = document.querySelector('.vote-head'), card = document.getElementById('vote-card');
+  if (!call || !fab || !head) return;
+  document.querySelectorAll('[data-vote]').forEach(function (a) { a.href = VOTE_URL; a.target = '_blank'; a.rel = 'noopener'; });
+
+  var fabBtn = fab.querySelector('button');
+  fabBtn.addEventListener('click', function () { card.hidden = !card.hidden; fabBtn.setAttribute('aria-expanded', String(!card.hidden)); });
+  function showButtons() { document.body.classList.add('has-vote'); head.hidden = false; fab.hidden = false; }
+
+  var seen = false;
+  try { seen = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (seen) return showButtons();
+
+  // Tono: un arpegio corto que suena dos veces. El navegador no deja sonar audio
+  // sin un gesto del usuario, así que si nadie hizo clic todavía espera al primero.
+  var ctx, plays = 0, toneTimer, ringing = false, waiting = false;
+  function note(freq, t, dur) {
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle'; o.frequency.setValueAtTime(freq, t);
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(.045, t + .012);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + dur + .05);
+  }
+  function tone() {
+    if (!ringing || plays >= 2) return;
+    plays++;
+    var t = ctx.currentTime + .02;
+    note(1046.5, t, .3); note(1318.5, t + .12, .3); note(1568, t + .24, .45);
+    toneTimer = setTimeout(tone, 2000);
+  }
+  function unlock() {
+    document.removeEventListener('click', unlock, true);
+    document.removeEventListener('keydown', unlock, true);
+    ctx.resume().then(function () { if (ringing) tone(); });
+  }
+  function startTone() {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    ringing = true;
+    if (!ctx) ctx = new AC();
+    if (ctx.state === 'running') return tone();
+    // click y no pointerdown: en pantallas táctiles la activación llega al levantar el dedo
+    if (!waiting) { waiting = true; document.addEventListener('click', unlock, true); document.addEventListener('keydown', unlock, true); }
+  }
+  function stopTone() { ringing = false; clearTimeout(toneTimer); }
+
+  var answered = false;
+  function answer() {
+    if (answered) return;
+    answered = true;
+    stopTone();
+    // la tarjeta crece hasta su alto nuevo en vez de saltar; el mensaje entra con CSS
+    var h0 = call.offsetHeight;
+    call.classList.remove('is-ringing');
+    call.querySelector('[data-ring]').hidden = true;
+    call.querySelector('[data-talk]').hidden = false;
+    if (call.animate) {
+      call.style.overflow = 'hidden';
+      call.animate([{ height: h0 + 'px' }, { height: call.offsetHeight + 'px' }], { duration: 480, easing: 'cubic-bezier(.3, 1.25, .5, 1)' })
+        .onfinish = function () { call.style.overflow = ''; };
+    }
+    var s = 0, st = call.querySelector('[data-status]');
+    st.textContent = '00:00';
+    setInterval(function () { s++; st.textContent = Math.floor(s / 60).toString().padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }, 1000);
+  }
+  call.addEventListener('mouseenter', answer);
+  call.addEventListener('click', answer);
+
+  var gone = false;
+  function hangUp() {
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    call.classList.add('is-leaving');
+    function done() { if (gone) return; gone = true; call.remove(); showButtons(); }
+    call.addEventListener('animationend', function (e) { if (e.target === call) done(); });
+    setTimeout(done, 900);
+  }
+  call.querySelector('[data-hangup]').addEventListener('click', hangUp);
+
+  setTimeout(function () {
+    // debajo del header, que es sticky
+    call.style.top = document.querySelector('.top').getBoundingClientRect().bottom + 12 + 'px';
+    call.classList.add('is-ringing');
+    call.hidden = false;
+    // el tono arranca junto con la primera vibración
+    setTimeout(function () { if (!answered) startTone(); }, 600);
+  }, 10000);
 })();
 </script>
 </body>
